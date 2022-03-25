@@ -17,9 +17,9 @@ class Db {
     this.pool = mysql.createPool(this.config);
     return this;
   }
-  findOne(email) {
+  findOne(email,pole = 'email') {
     return new Promise((resolve, reject) => {
-      const sql = `SELECT * FROM users WHERE email='${email}'`;
+      const sql = `SELECT * FROM users WHERE ${pole}='${email}'`;
       this.pool.query(sql, (error, result) => {
         if (error) reject(error);
         resolve(result);
@@ -48,6 +48,15 @@ class Db {
     });
   }
 
+async updateUser(par,pole,where_pole,usl){
+  const sql = `UPDATE users SET ${pole} = '${par}' 
+          WHERE ${where_pole} = '${usl}';`
+          this.pool.query(sql, (error, result) => {
+            if (error) reject(error);
+            return result
+          });
+
+}
   //запись токена
   saveT(id, token) {
     return new Promise((resolve, reject) => {

@@ -4,15 +4,7 @@ dotenv.config();
 
 class MailService {
   constructor() {
-      console.log('maildata ',{
-        host: process.env.SMTP_HOST,
-        port: 465,
-        secure: true,
-        auth: {
-          user: process.env.SMTP_USER,
-          pass: process.env.SMTP_PASSWORD,
-        },
-      })
+  
     this.transporter = nodemailer.createTransport({
       host: process.env.SMTP_HOST,
       port: process.env.SMTP_PORT,

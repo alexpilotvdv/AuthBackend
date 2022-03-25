@@ -33,6 +33,15 @@ class UserService {
       },
     };
   }
+  async activate(activationlink){
+    const user = await db.findOne(activationlink,'activationlink')
+    const actlink = user[0].activationlink
+    if(user.length = 0){
+      throw new Error('Некорректная ссылка активации')
+    }
+   const rez = await db.updateUser('1','isactivated', 'activationlink', actlink)
+    return rez
+  }
 }
 
 export default new UserService();
