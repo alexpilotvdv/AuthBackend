@@ -1,8 +1,13 @@
-import db from './Db.js'
+import UserService from "../service/UserService.js";
+
 class UserController {
   async registration(req, res, next) {
     try {
-    } catch (e) {}
+      const {email,password} = req.body
+      const userData = await UserService.registration(email,password)
+      res.cookie('refreshtoken',userData.refreshToken,{maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true})
+      return res.json(userData)
+    } catch (e) {console.log(e)}
   }
   async login(req, res, next) {
     try {
@@ -24,12 +29,6 @@ class UserController {
     try {
     //  const r = await db.findOne('aa@a.com')
     //  console.log(r.length)
-      if(r){
-      //  res.json(r);
-      }
-      else{
-      //  res.json('not find');
-      }
       
     } catch (e) {}
   }
