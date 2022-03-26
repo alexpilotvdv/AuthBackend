@@ -52,10 +52,17 @@ async updateUser(par,pole,where_pole,usl){
   const sql = `UPDATE users SET ${pole} = '${par}' 
           WHERE ${where_pole} = '${usl}';`
           this.pool.query(sql, (error, result) => {
-            if (error) reject(error);
+        //    if (error) reject(error);
             return result
           });
 
+}
+async deleteT(refreshToken){
+  const sql = `DELETE FROM token WHERE refreshtoken = '${refreshToken}';`
+  this.pool.query(sql, (error, result) => {
+   // if (error) reject(error);
+    return result
+  });
 }
   //запись токена
   saveT(id, token) {

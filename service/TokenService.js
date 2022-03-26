@@ -19,5 +19,11 @@ class TokenService {
   async saveToken(id, refreshToken) {
     await db.saveT(id, refreshToken);
   }
+  async deleteToken(refreshToken) {
+    await db.deleteT(refreshToken);
+  }
 }
+
+
+
 export default new TokenService();
