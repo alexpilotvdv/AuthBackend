@@ -47,7 +47,32 @@ async logout(refreshtoken){
   const rez = await TokenService.deleteToken(refreshtoken)
   return rez
 }
-  
+
+async refresh(refreshtoken){
+      if(!refreshtoken){
+          throw ApiError.unautorisedError()
+      }
+      const userData = TokenService.validateRefreshToken(refreshtoken)
+      const tokenDb = await TokenService.findToken(refreshtoken)
+      if(!userData || !(tokenDb.length > 0)){
+        throw ApiError.unautorisedError()
+      }
+      //
+    const payload = await db.dataForPayloadT(tokenDb[0].user);
+    let token = "";
+    if (payload.length > 0) {
+      token = TokenService.generateTokens({ ...payload[0] });
+      await TokenService.saveToken(payload[0].id, token.refreshToken);
+    } else {
+      throw ApiError.badRequest("Проблема с созданием токена")
+    }
+    return {
+      ...token,
+      userDto: {
+        ...payload[0],
+      },
+    };
+}
 
 async login(email, password){
        //проверяем есть ли такой пользователь в базе

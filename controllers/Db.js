@@ -37,6 +37,16 @@ class Db {
     });
   }
 
+  dataForPayloadT(userid) {
+    return new Promise((resolve, reject) => {
+      const sql = `SELECT id,email,isactivated FROM users WHERE id=${userid}`;
+      this.pool.query(sql, (error, result) => {
+        if (error) reject(error);
+        resolve(result);
+      });
+    });
+  }
+
   createUser(email, password, link) {
     return new Promise((resolve, reject) => {
       const sql = `INSERT INTO users (email, password,activationlink) 
@@ -63,6 +73,16 @@ async deleteT(refreshToken){
    // if (error) reject(error);
     return result
   });
+}
+
+findT(refreshToken){
+  return new Promise((resolve, reject) => {
+    const sql = `SELECT * FROM token WHERE refreshtoken = '${refreshToken}';`
+    this.pool.query(sql, (error, result) => {
+resolve(result)
+    })
+  })
+  
 }
   //запись токена
   saveT(id, token) {

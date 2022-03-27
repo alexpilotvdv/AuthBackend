@@ -39,13 +39,15 @@ class UserController {
   }
   async refresh(req, res, next) {
     try {
-    } catch (e) {}
+      const {refreshtoken} = req.cookies
+      const userData = await UserService.refresh(refreshtoken)
+      res.cookie('refreshtoken',userData.refreshToken,{maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true})
+      return res.json(userData)
+    } catch (e) {next(e)}
   }
   async getUsers(req, res, next) {
     try {
-    //  const r = await db.findOne('aa@a.com')
-    //  console.log(r.length)
-      
+      res.json('Доступ разрешен')
     } catch (e) {}
   }
 }
